@@ -866,6 +866,68 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>configdb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-maven-plugin</artifactId>
+						<version>5.2.4</version>
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.46</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<url>jdbc:mysql://localhost:3306/ApolloConfigDB</url>
+							<user>root</user>
+							<password>root</password>
+							<schemas>
+								<schema>ApolloConfigDB</schema>
+							</schemas>
+							<locations>
+								<location>filesystem:scripts/db/migration/configdb</location>
+							</locations>
+						</configuration>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>portaldb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-maven-plugin</artifactId>
+						<version>5.2.4</version>
+						<dependencies>
+							<dependency>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.46</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<url>jdbc:mysql://localhost:3306/ApolloPortalDB</url>
+							<user>root</user>
+							<password>root</password>
+							<schemas>
+								<schema>ApolloPortalDB</schema>
+							</schemas>
+							<locations>
+								<location>filesystem:scripts/db/migration/portaldb</location>
+							</locations>
+						</configuration>
+						<inherited>false</inherited>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<reporting>
