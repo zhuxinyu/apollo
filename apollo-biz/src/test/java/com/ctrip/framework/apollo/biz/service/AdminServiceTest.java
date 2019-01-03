@@ -1,7 +1,7 @@
 package com.ctrip.framework.apollo.biz.service;
 
 import com.ctrip.framework.apollo.biz.AbstractIntegrationTest;
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 import com.ctrip.framework.apollo.biz.entity.Cluster;
 import com.ctrip.framework.apollo.biz.entity.Namespace;
 import com.ctrip.framework.apollo.biz.repository.AppRepository;

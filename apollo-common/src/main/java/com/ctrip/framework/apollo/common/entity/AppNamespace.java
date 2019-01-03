@@ -1,6 +1,7 @@
 package com.ctrip.framework.apollo.common.entity;
 
 
+import com.ctrip.framework.apollo.common.AuditingEntityListener;
 import com.ctrip.framework.apollo.core.enums.ConfigFileFormat;
 
 import org.hibernate.annotations.SQLDelete;
@@ -8,12 +9,14 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "AppNamespace")
 @SQLDelete(sql = "Update AppNamespace set isDeleted = 1 where id = ?")
 @Where(clause = "isDeleted = 0")
+@EntityListeners(AuditingEntityListener.class)
 public class AppNamespace extends BaseEntity {
 
   @Column(name = "Name", nullable = false)

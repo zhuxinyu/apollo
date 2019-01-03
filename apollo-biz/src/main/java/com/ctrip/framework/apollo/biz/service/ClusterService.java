@@ -2,7 +2,7 @@ package com.ctrip.framework.apollo.biz.service;
 
 import com.google.common.base.Strings;
 
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 import com.ctrip.framework.apollo.biz.entity.Cluster;
 import com.ctrip.framework.apollo.biz.repository.ClusterRepository;
 import com.ctrip.framework.apollo.common.exception.BadRequestException;

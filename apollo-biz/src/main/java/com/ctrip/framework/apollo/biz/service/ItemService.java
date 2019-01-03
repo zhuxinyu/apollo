@@ -2,7 +2,7 @@ package com.ctrip.framework.apollo.biz.service;
 
 
 import com.ctrip.framework.apollo.biz.config.BizConfig;
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 import com.ctrip.framework.apollo.biz.entity.Item;
 import com.ctrip.framework.apollo.biz.entity.Namespace;
 import com.ctrip.framework.apollo.biz.repository.ItemRepository;

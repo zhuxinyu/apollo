@@ -1,6 +1,6 @@
 package com.ctrip.framework.apollo.biz.service;
 
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 import com.ctrip.framework.apollo.biz.repository.AppRepository;
 import com.ctrip.framework.apollo.common.entity.App;
 import com.ctrip.framework.apollo.common.exception.BadRequestException;
@@ -28,7 +28,7 @@ public class AppService {
     Objects.requireNonNull(appId, "AppId must not be null");
     return Objects.isNull(appRepository.findByAppId(appId));
   }
-  
+
   @Transactional
   public void delete(long id, String operator) {
     App app = appRepository.findById(id).orElse(null);
@@ -63,10 +63,10 @@ public class AppService {
     }
     entity.setId(0);//protection
     App app = appRepository.save(entity);
-    
+
     auditService.audit(App.class.getSimpleName(), app.getId(), Audit.OP.INSERT,
         app.getDataChangeCreatedBy());
-    
+
     return app;
   }
 
@@ -87,9 +87,9 @@ public class AppService {
     managedApp.setDataChangeLastModifiedBy(app.getDataChangeLastModifiedBy());
 
     managedApp = appRepository.save(managedApp);
-    
+
     auditService.audit(App.class.getSimpleName(), managedApp.getId(), Audit.OP.UPDATE,
         managedApp.getDataChangeLastModifiedBy());
-    
+
   }
 }

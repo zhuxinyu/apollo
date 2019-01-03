@@ -1,6 +1,6 @@
 package com.ctrip.framework.apollo.biz.repository;
 
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -2,7 +2,7 @@ package com.ctrip.framework.apollo.biz.service;
 
 import com.google.gson.Gson;
 
-import com.ctrip.framework.apollo.biz.entity.Audit;
+import com.ctrip.framework.apollo.common.entity.Audit;
 import com.ctrip.framework.apollo.biz.entity.ReleaseHistory;
 import com.ctrip.framework.apollo.biz.repository.ReleaseHistoryRepository;
 
