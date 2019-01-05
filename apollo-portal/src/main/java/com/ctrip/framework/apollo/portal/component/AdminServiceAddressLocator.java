@@ -37,7 +37,6 @@ public class AdminServiceAddressLocator {
   private List<Env> allEnvs;
   private Map<Env, List<ServiceDTO>> cache = new ConcurrentHashMap<>();
 
-  private final HttpMessageConverters httpMessageConverters;
   private final PortalSettings portalSettings;
   private final RestTemplateFactory restTemplateFactory;
 
@@ -45,7 +44,6 @@ public class AdminServiceAddressLocator {
       final HttpMessageConverters httpMessageConverters,
       final PortalSettings portalSettings,
       final RestTemplateFactory restTemplateFactory) {
-    this.httpMessageConverters = httpMessageConverters;
     this.portalSettings = portalSettings;
     this.restTemplateFactory = restTemplateFactory;
   }
