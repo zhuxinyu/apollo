@@ -11,6 +11,7 @@ import com.ctrip.framework.apollo.core.enums.Env;
 import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.ctrip.framework.apollo.portal.api.AdminServiceAPI;
 import com.ctrip.framework.apollo.portal.component.txtresolver.ConfigTextResolver;
+import com.ctrip.framework.apollo.portal.component.txtresolver.YamlResolver;
 import com.ctrip.framework.apollo.portal.constant.TracerEventType;
 import com.ctrip.framework.apollo.portal.entity.model.NamespaceTextModel;
 import com.ctrip.framework.apollo.portal.entity.vo.ItemDiffs;
@@ -47,6 +48,9 @@ public class ItemService {
   @Qualifier("propertyResolver")
   private ConfigTextResolver propertyResolver;
 
+  @Autowired
+  @Qualifier("yamlResolver")
+  private ConfigTextResolver yamlResolver;
 
   /**
    * parse config text and update config items
@@ -61,8 +65,18 @@ public class ItemService {
     long namespaceId = model.getNamespaceId();
     String configText = model.getConfigText();
 
-    ConfigTextResolver resolver =
-        model.getFormat() == ConfigFileFormat.Properties ? propertyResolver : fileTextResolver;
+    ConfigTextResolver resolver = fileTextResolver;
+    switch (model.getFormat()) {
+      case Properties:
+        resolver = propertyResolver;
+        break;
+      case YML:
+      case YAML:
+        resolver = yamlResolver;
+        break;
+      default:
+        break;
+    }
 
     ItemChangeSets changeSets = resolver.resolve(namespaceId, configText,
         itemAPI.findItems(appId, env, clusterName, namespaceName));
