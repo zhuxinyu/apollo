@@ -58,8 +58,6 @@ public class ReleaseController {
   public ReleaseDTO createRelease(@PathVariable String appId,
                                   @PathVariable String env, @PathVariable String clusterName,
                                   @PathVariable String namespaceName, @RequestBody NamespaceReleaseModel model) {
-
-    checkModel(Objects.nonNull(model));
     model.setAppId(appId);
     model.setEnv(env);
     model.setClusterName(clusterName);
@@ -90,8 +88,6 @@ public class ReleaseController {
                                       @PathVariable String env, @PathVariable String clusterName,
                                       @PathVariable String namespaceName, @PathVariable String branchName,
                                       @RequestBody NamespaceReleaseModel model) {
-
-    checkModel(Objects.nonNull(model));
     model.setAppId(appId);
     model.setEnv(env);
     model.setClusterName(branchName);
