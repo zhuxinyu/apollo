@@ -8,6 +8,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
@@ -54,7 +57,9 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
     ReflectionUtils.makeAccessible(method);
     String[] namespaces = annotation.value();
     String[] annotatedInterestedKeys = annotation.interestedKeys();
-    Set<String> interestedKeys = annotatedInterestedKeys.length > 0 ? Sets.newHashSet(annotatedInterestedKeys) : null;
+    String[] annotatedInterestedKeyPatterns = annotation.interestedKeyPatterns();
+    Set<String> interestedKeys = new HashSet<>(Arrays.asList(annotatedInterestedKeys));
+    Set<String> interestedKeyPatterns = new HashSet<>(Arrays.asList(annotatedInterestedKeyPatterns));
     ConfigChangeListener configChangeListener = new ConfigChangeListener() {
       @Override
       public void onChange(ConfigChangeEvent changeEvent) {
@@ -65,10 +70,15 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
     for (String namespace : namespaces) {
       Config config = ConfigService.getConfig(namespace);
 
-      if (interestedKeys == null) {
+      if (interestedKeys.isEmpty() && interestedKeyPatterns.isEmpty()) {
         config.addChangeListener(configChangeListener);
       } else {
-        config.addChangeListener(configChangeListener, interestedKeys);
+        if (!interestedKeys.isEmpty()) {
+          config.addChangeListener(configChangeListener, interestedKeys);
+        }
+        if (!interestedKeyPatterns.isEmpty()) {
+          config.addChangeListener(configChangeListener, Collections.<String>emptySet(), interestedKeyPatterns);
+        }
       }
     }
   }

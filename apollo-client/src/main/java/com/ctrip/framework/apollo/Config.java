@@ -182,6 +182,17 @@ public interface Config {
   public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys);
 
   /**
+   * Add change listener to this config instance, will only be notified when any of the interested keys is changed in this namespace.
+   *
+   * @param listener the config change listener
+   * @param interestedKeys the keys that the listener is interested in
+   * @param interestedKeyPatterns the key patterns that the listener is interested in
+   *
+   * @since 1.0.0
+   */
+  public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPatterns);
+
+  /**
    * Remove the change listener
    *
    * @param listener the specific config change listener to remove

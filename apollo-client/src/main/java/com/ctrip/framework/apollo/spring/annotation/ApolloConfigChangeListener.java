@@ -43,4 +43,6 @@ public @interface ApolloConfigChangeListener {
    * If not specified then will be notified when any key is changed.
    */
   String[] interestedKeys() default {};
+
+  String[] interestedKeyPatterns() default {};
 }
