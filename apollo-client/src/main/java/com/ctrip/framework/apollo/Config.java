@@ -188,7 +188,7 @@ public interface Config {
    * @param interestedKeys the keys that the listener is interested in
    * @param interestedKeyPatterns the key patterns that the listener is interested in
    *
-   * @since 1.0.0
+   * @since 1.3.0
    */
   public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPatterns);
 
