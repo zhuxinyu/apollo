@@ -24,7 +24,6 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
