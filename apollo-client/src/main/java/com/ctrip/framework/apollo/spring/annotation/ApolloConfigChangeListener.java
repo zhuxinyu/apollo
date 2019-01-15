@@ -40,9 +40,15 @@ public @interface ApolloConfigChangeListener {
   /**
    * The keys interested by the listener, will only be notified if any of the interested keys is changed.
    * <br />
-   * If not specified then will be notified when any key is changed.
+   * If neither of {@code interestedKeys} and {@code interestedKeyPatterns} is specified then the {@code listener} will be notified when any key is changed.
    */
   String[] interestedKeys() default {};
 
+  /**
+   * The key patterns that the listener is interested in, will only be notified if any of the key patterns match the changed config key.
+   * The patterns will simply be used to determine whether the {@code listener} should be notified or not using {@code changedKey.matchers(pattern)}.
+   * <br />
+   * If neither of {@code interestedKeys} and {@code interestedKeyPatterns} is specified then the {@code listener} will be notified when any key is changed.
+   */
   String[] interestedKeyPatterns() default {};
 }

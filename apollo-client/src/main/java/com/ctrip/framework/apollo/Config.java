@@ -186,7 +186,11 @@ public interface Config {
    *
    * @param listener the config change listener
    * @param interestedKeys the keys that the listener is interested in
-   * @param interestedKeyPatterns the key patterns that the listener is interested in
+   * @param interestedKeyPatterns the key patterns that the listener is interested in,
+   *                              e.g. "spring.*" means that {@code listener} is interested in all keys that are started with "spring"
+   *                              and ".*port" means that {@code listener} is interested in those that are ends with "port".
+   *                              For more details, see {@link com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener#interestedKeyPatterns()}
+   *                              and {@link java.lang.String#matches(String)}
    *
    * @since 1.3.0
    */
