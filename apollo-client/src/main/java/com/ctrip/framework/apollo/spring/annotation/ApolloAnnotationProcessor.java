@@ -64,18 +64,25 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
       }
     };
 
+    Set<String> interestedKeys = null;
+    Set<String> interestedKeyPrefixes = null;
+    if (annotatedInterestedKeys.length > 0) {
+      interestedKeys = new HashSet<>(Arrays.asList(annotatedInterestedKeys));
+    }
+    if (annotatedInterestedKeyPrefixes.length > 0) {
+      interestedKeyPrefixes = new HashSet<>(Arrays.asList(annotatedInterestedKeyPrefixes));
+    }
+
     for (String namespace : namespaces) {
       Config config = ConfigService.getConfig(namespace);
 
-      if (annotatedInterestedKeys.length == 0 && annotatedInterestedKeyPrefixes.length == 0) {
+      if (interestedKeys == null && interestedKeyPrefixes == null) {
         config.addChangeListener(configChangeListener);
       } else {
-        if (annotatedInterestedKeys.length > 0) {
-          Set<String> interestedKeys = new HashSet<>(Arrays.asList(annotatedInterestedKeys));
+        if (interestedKeys != null && !interestedKeys.isEmpty()) {
           config.addChangeListener(configChangeListener, interestedKeys);
         }
-        if (annotatedInterestedKeyPrefixes.length > 0) {
-          Set<String> interestedKeyPrefixes = new HashSet<>(Arrays.asList(annotatedInterestedKeyPrefixes));
+        if (interestedKeyPrefixes != null && !interestedKeyPrefixes.isEmpty()) {
           config.addChangeListener(configChangeListener, Collections.<String>emptySet(), interestedKeyPrefixes);
         }
       }
