@@ -43,7 +43,7 @@ public abstract class AbstractConfig implements Config {
 
   private final List<ConfigChangeListener> m_listeners = Lists.newCopyOnWriteArrayList();
   private final Map<ConfigChangeListener, Set<String>> m_interestedKeys = Maps.newConcurrentMap();
-  private final Map<ConfigChangeListener, Set<String>> m_interestedKeyPatterns = Maps.newConcurrentMap();
+  private final Map<ConfigChangeListener, Set<String>> m_interestedKeyPrefixes = Maps.newConcurrentMap();
   private final ConfigUtil m_configUtil;
   private volatile Cache<String, Integer> m_integerCache;
   private volatile Cache<String, Long> m_longCache;
@@ -81,14 +81,14 @@ public abstract class AbstractConfig implements Config {
   }
 
   @Override
-  public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPatterns) {
+  public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPrefixes) {
     if (!m_listeners.contains(listener)) {
       m_listeners.add(listener);
       if (interestedKeys != null && !interestedKeys.isEmpty()) {
         m_interestedKeys.put(listener, Sets.newHashSet(interestedKeys));
       }
-      if (interestedKeyPatterns != null && !interestedKeyPatterns.isEmpty()) {
-        m_interestedKeyPatterns.put(listener, Sets.newHashSet(interestedKeyPatterns));
+      if (interestedKeyPrefixes != null && !interestedKeyPrefixes.isEmpty()) {
+        m_interestedKeyPrefixes.put(listener, Sets.newHashSet(interestedKeyPrefixes));
       }
     }
   }
@@ -96,7 +96,7 @@ public abstract class AbstractConfig implements Config {
   @Override
   public boolean removeChangeListener(ConfigChangeListener listener) {
     m_interestedKeys.remove(listener);
-    m_interestedKeyPatterns.remove(listener);
+    m_interestedKeyPrefixes.remove(listener);
     return m_listeners.remove(listener);
   }
 
@@ -462,10 +462,10 @@ public abstract class AbstractConfig implements Config {
 
   private boolean isConfigChangeListenerInterested(ConfigChangeListener configChangeListener, ConfigChangeEvent configChangeEvent) {
     Set<String> interestedKeys = m_interestedKeys.get(configChangeListener);
-    Set<String> interestedKeyPatterns = m_interestedKeyPatterns.get(configChangeListener);
+    Set<String> interestedKeyPrefixes = m_interestedKeyPrefixes.get(configChangeListener);
 
     if ((interestedKeys == null || interestedKeys.isEmpty())
-        && (interestedKeyPatterns == null || interestedKeyPatterns.isEmpty())) {
+        && (interestedKeyPrefixes == null || interestedKeyPrefixes.isEmpty())) {
       return true; // no interested keys means interested in all keys
     }
 
@@ -477,10 +477,10 @@ public abstract class AbstractConfig implements Config {
       }
     }
 
-    if (interestedKeyPatterns != null) {
-      for (String interestedKeyPattern : interestedKeyPatterns) {
+    if (interestedKeyPrefixes != null) {
+      for (String prefix : interestedKeyPrefixes) {
         for (final String changedKey : configChangeEvent.changedKeys()) {
-          if (changedKey.matches(interestedKeyPattern)) {
+          if (changedKey.startsWith(prefix)) {
             return true;
           }
         }

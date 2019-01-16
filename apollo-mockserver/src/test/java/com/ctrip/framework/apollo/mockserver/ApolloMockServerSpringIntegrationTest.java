@@ -39,7 +39,7 @@ public class ApolloMockServerSpringIntegrationTest {
   private TestBean testBean;
 
   @Autowired
-  private TestInterestedKeyPatternBean testInterestedKeyPatternBean;
+  private TestInterestedKeyPrefixesBean testInterestedKeyPrefixesBean;
 
   @Test
   @DirtiesContext
@@ -73,7 +73,7 @@ public class ApolloMockServerSpringIntegrationTest {
     embeddedApollo.addOrModifyProperty(otherNamespace, "server.port", "8080");
     embeddedApollo.addOrModifyProperty(otherNamespace, "server.path", "/apollo");
     embeddedApollo.addOrModifyProperty(otherNamespace, "spring.application.name", "whatever");
-    ConfigChangeEvent changeEvent = testInterestedKeyPatternBean.futureData.get(5000, TimeUnit.MILLISECONDS);
+    ConfigChangeEvent changeEvent = testInterestedKeyPrefixesBean.futureData.get(5000, TimeUnit.MILLISECONDS);
     assertEquals(otherNamespace, changeEvent.getNamespace());
     assertEquals("8080", changeEvent.getChange("server.port").getNewValue());
     assertEquals("/apollo", changeEvent.getChange("server.path").getNewValue());
@@ -83,7 +83,7 @@ public class ApolloMockServerSpringIntegrationTest {
   @DirtiesContext
   public void shouldNotNotifyOnUninterestedPatterns() throws Exception {
     embeddedApollo.addOrModifyProperty(otherNamespace, "spring.application.name", "apollo");
-    testInterestedKeyPatternBean.futureData.get(5000, TimeUnit.MILLISECONDS);
+    testInterestedKeyPrefixesBean.futureData.get(5000, TimeUnit.MILLISECONDS);
   }
 
   @EnableApolloConfig
@@ -96,8 +96,8 @@ public class ApolloMockServerSpringIntegrationTest {
     }
 
     @Bean
-    public TestInterestedKeyPatternBean testInterestedKeyPatternBean() {
-      return new TestInterestedKeyPatternBean();
+    public TestInterestedKeyPrefixesBean testInterestedKeyPrefixesBean() {
+      return new TestInterestedKeyPrefixesBean();
     }
   }
 
@@ -116,10 +116,10 @@ public class ApolloMockServerSpringIntegrationTest {
     }
   }
 
-  private static class TestInterestedKeyPatternBean {
+  private static class TestInterestedKeyPrefixesBean {
     private SettableFuture<ConfigChangeEvent> futureData = SettableFuture.create();
 
-    @ApolloConfigChangeListener(value = otherNamespace, interestedKeyPatterns = "server.*")
+    @ApolloConfigChangeListener(value = otherNamespace, interestedPrefixes = "server.")
     private void onChange(ConfigChangeEvent changeEvent) {
       futureData.set(changeEvent);
     }

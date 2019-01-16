@@ -243,41 +243,38 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
   }
 
   @Test
-  public void testApolloConfigChangeListenerWithInterestedKeyPattern() {
+  public void testApolloConfigChangeListenerWithInterestedKeyPrefix() {
     Config applicationConfig = mock(Config.class);
     Config fxApolloConfig = mock(Config.class);
 
     mockConfig(ConfigConsts.NAMESPACE_APPLICATION, applicationConfig);
     mockConfig(FX_APOLLO_NAMESPACE, fxApolloConfig);
 
-    getBean(TestApolloConfigChangeListenerWithInterestedKeyPatternsBean.class, AppConfig8.class);
+    getBean(TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean.class, AppConfig8.class);
 
-    final ArgumentCaptor<Set> applicationConfigInterestedKeyPatterns = ArgumentCaptor.forClass(Set.class);
-    final ArgumentCaptor<Set> fxApolloConfigInterestedKeyPatterns = ArgumentCaptor.forClass(Set.class);
+    final ArgumentCaptor<Set> applicationConfigInterestedKeyPrefixes = ArgumentCaptor.forClass(Set.class);
+    final ArgumentCaptor<Set> fxApolloConfigInterestedKeyPrefixes = ArgumentCaptor.forClass(Set.class);
 
     verify(applicationConfig, times(2))
-        .addChangeListener(any(ConfigChangeListener.class), anySet(), applicationConfigInterestedKeyPatterns.capture());
+        .addChangeListener(any(ConfigChangeListener.class), anySet(), applicationConfigInterestedKeyPrefixes.capture());
 
     verify(fxApolloConfig, times(1))
-        .addChangeListener(any(ConfigChangeListener.class), anySet(), fxApolloConfigInterestedKeyPatterns.capture());
+        .addChangeListener(any(ConfigChangeListener.class), anySet(), fxApolloConfigInterestedKeyPrefixes.capture());
 
-    assertEquals(2, applicationConfigInterestedKeyPatterns.getAllValues().size());
+    assertEquals(2, applicationConfigInterestedKeyPrefixes.getAllValues().size());
 
     Set<String> result = Sets.newHashSet();
-    for (Set interestedKeys : applicationConfigInterestedKeyPatterns.getAllValues()) {
+    for (Set interestedKeys : applicationConfigInterestedKeyPrefixes.getAllValues()) {
       result.addAll(interestedKeys);
     }
 
-    assertThat(result, hasItem("some.*"));
+    assertThat(result, hasItem("some"));
 
-    assertThat(result, containsInAnyOrder("an.*Key", "some.*"));
+    assertThat(result, containsInAnyOrder("another", "some"));
 
-    assertTrue("someKey".matches("some.*"));
-    assertTrue("anotherKey".matches("an.*Key"));
+    assertEquals(1, fxApolloConfigInterestedKeyPrefixes.getAllValues().size());
 
-    assertEquals(1, fxApolloConfigInterestedKeyPatterns.getAllValues().size());
-
-    assertEquals(asList(Sets.newHashSet("an.*Key")), fxApolloConfigInterestedKeyPatterns.getAllValues());
+    assertEquals(asList(Sets.newHashSet("another")), fxApolloConfigInterestedKeyPrefixes.getAllValues());
   }
 
   private <T> T getBean(Class<T> beanClass, Class<?>... annotatedClasses) {
@@ -357,8 +354,8 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
       return new TestApolloConfigChangeListenerWithInterestedKeysBean();
     }
     @Bean
-    public TestApolloConfigChangeListenerWithInterestedKeyPatternsBean patternsBean() {
-      return new TestApolloConfigChangeListenerWithInterestedKeyPatternsBean();
+    public TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean patternsBean() {
+      return new TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean();
     }
   }
 
@@ -471,13 +468,13 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
     }
   }
 
-  static class TestApolloConfigChangeListenerWithInterestedKeyPatternsBean {
+  static class TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean {
 
-    @ApolloConfigChangeListener(interestedKeyPatterns = {"some.*"})
+    @ApolloConfigChangeListener(interestedPrefixes = {"some"})
     private void someOnChange(ConfigChangeEvent changeEvent) {}
 
     @ApolloConfigChangeListener(value = {ConfigConsts.NAMESPACE_APPLICATION, FX_APOLLO_NAMESPACE},
-        interestedKeyPatterns = {"an.*Key"})
+        interestedPrefixes = {"another"})
     private void anotherOnChange(ConfigChangeEvent changeEvent) {
 
     }
