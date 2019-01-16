@@ -18,7 +18,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value
    */
-  String getProperty(String key, String defaultValue);
+  public String getProperty(String key, String defaultValue);
 
   /**
    * Return the integer property value with the given key, or {@code defaultValue} if the key
@@ -28,7 +28,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as integer
    */
-  Integer getIntProperty(String key, Integer defaultValue);
+  public Integer getIntProperty(String key, Integer defaultValue);
 
   /**
    * Return the long property value with the given key, or {@code defaultValue} if the key doesn't
@@ -38,7 +38,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as long
    */
-  Long getLongProperty(String key, Long defaultValue);
+  public Long getLongProperty(String key, Long defaultValue);
 
   /**
    * Return the short property value with the given key, or {@code defaultValue} if the key doesn't
@@ -48,7 +48,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as short
    */
-  Short getShortProperty(String key, Short defaultValue);
+  public Short getShortProperty(String key, Short defaultValue);
 
   /**
    * Return the float property value with the given key, or {@code defaultValue} if the key doesn't
@@ -58,7 +58,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as float
    */
-  Float getFloatProperty(String key, Float defaultValue);
+  public Float getFloatProperty(String key, Float defaultValue);
 
   /**
    * Return the double property value with the given key, or {@code defaultValue} if the key doesn't
@@ -68,7 +68,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as double
    */
-  Double getDoubleProperty(String key, Double defaultValue);
+  public Double getDoubleProperty(String key, Double defaultValue);
 
   /**
    * Return the byte property value with the given key, or {@code defaultValue} if the key doesn't
@@ -78,7 +78,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as byte
    */
-  Byte getByteProperty(String key, Byte defaultValue);
+  public Byte getByteProperty(String key, Byte defaultValue);
 
   /**
    * Return the boolean property value with the given key, or {@code defaultValue} if the key
@@ -88,7 +88,7 @@ public interface Config {
    * @param defaultValue the default value when key is not found or any error occurred
    * @return the property value as boolean
    */
-  Boolean getBooleanProperty(String key, Boolean defaultValue);
+  public Boolean getBooleanProperty(String key, Boolean defaultValue);
 
   /**
    * Return the array property value with the given key, or {@code defaultValue} if the key doesn't exist.
@@ -97,7 +97,7 @@ public interface Config {
    * @param delimiter    the delimiter regex
    * @param defaultValue the default value when key is not found or any error occurred
    */
-  String[] getArrayProperty(String key, String delimiter, String[] defaultValue);
+  public String[] getArrayProperty(String key, String delimiter, String[] defaultValue);
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -108,7 +108,7 @@ public interface Config {
    * @param defaultValue the default value when name is not found or any error occurred
    * @return the property value
    */
-  Date getDateProperty(String key, Date defaultValue);
+  public Date getDateProperty(String key, Date defaultValue);
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -120,7 +120,7 @@ public interface Config {
    * @param defaultValue the default value when name is not found or any error occurred
    * @return the property value
    */
-  Date getDateProperty(String key, String format, Date defaultValue);
+  public Date getDateProperty(String key, String format, Date defaultValue);
 
   /**
    * Return the Date property value with the given name, or {@code defaultValue} if the name doesn't exist.
@@ -132,7 +132,7 @@ public interface Config {
    * @param defaultValue the default value when name is not found or any error occurred
    * @return the property value
    */
-  Date getDateProperty(String key, String format, Locale locale, Date defaultValue);
+  public Date getDateProperty(String key, String format, Locale locale, Date defaultValue);
 
   /**
    * Return the Enum property value with the given key, or {@code defaultValue} if the key doesn't exist.
@@ -143,7 +143,7 @@ public interface Config {
    * @param <T>          the enum
    * @return the property value
    */
-  <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType, T defaultValue);
+  public <T extends Enum<T>> T getEnumProperty(String key, Class<T> enumType, T defaultValue);
 
   /**
    * Return the duration property value(in milliseconds) with the given name, or {@code
@@ -162,14 +162,14 @@ public interface Config {
    * @param defaultValue the default value when name is not found or any error occurred
    * @return the parsed property value(in milliseconds)
    */
-  long getDurationProperty(String key, long defaultValue);
+  public long getDurationProperty(String key, long defaultValue);
 
   /**
    * Add change listener to this config instance, will be notified when any key is changed in this namespace.
    *
    * @param listener the config change listener
    */
-  void addChangeListener(ConfigChangeListener listener);
+  public void addChangeListener(ConfigChangeListener listener);
 
   /**
    * Add change listener to this config instance, will only be notified when any of the interested keys is changed in this namespace.
@@ -179,7 +179,7 @@ public interface Config {
    *
    * @since 1.0.0
    */
-  void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys);
+  public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys);
 
   /**
    * Add change listener to this config instance, will only be notified when any of the interested keys is changed in this namespace.
@@ -194,7 +194,7 @@ public interface Config {
    *
    * @since 1.3.0
    */
-  void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPatterns);
+  public void addChangeListener(ConfigChangeListener listener, Set<String> interestedKeys, Set<String> interestedKeyPatterns);
 
   /**
    * Remove the change listener
@@ -204,14 +204,14 @@ public interface Config {
    *
    * @since 1.1.0
    */
-  boolean removeChangeListener(ConfigChangeListener listener);
+  public boolean removeChangeListener(ConfigChangeListener listener);
 
   /**
    * Return a set of the property names
    *
    * @return the property names
    */
-  Set<String> getPropertyNames();
+  public Set<String> getPropertyNames();
 
   /**
    * Return the user-defined property value with the given key, or {@code defaultValue} if the key doesn't exist.
@@ -224,7 +224,7 @@ public interface Config {
    *
    * @since 1.1.0
    */
-  <T> T getProperty(String key, Function<String, T> function, T defaultValue);
+  public <T> T getProperty(String key, Function<String, T> function, T defaultValue);
 
   /**
    * Return the config's source type, i.e. where is the config loaded from
@@ -233,5 +233,5 @@ public interface Config {
    *
    * @since 1.1.0
    */
-  ConfigSourceType getSourceType();
+  public ConfigSourceType getSourceType();
 }
