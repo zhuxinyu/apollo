@@ -469,11 +469,11 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
 
   static class TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean {
 
-    @ApolloConfigChangeListener(interestedPrefixes = {"some"})
+    @ApolloConfigChangeListener(interestedKeyPrefixes = {"some"})
     private void someOnChange(ConfigChangeEvent changeEvent) {}
 
     @ApolloConfigChangeListener(value = {ConfigConsts.NAMESPACE_APPLICATION, FX_APOLLO_NAMESPACE},
-        interestedPrefixes = {"another"})
+        interestedKeyPrefixes = {"another"})
     private void anotherOnChange(ConfigChangeEvent changeEvent) {
 
     }

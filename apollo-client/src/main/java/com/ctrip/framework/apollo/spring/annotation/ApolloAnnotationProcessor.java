@@ -7,9 +7,7 @@ import com.ctrip.framework.apollo.model.ConfigChangeEvent;
 import com.google.common.base.Preconditions;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -58,7 +56,7 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
     ReflectionUtils.makeAccessible(method);
     String[] namespaces = annotation.value();
     String[] annotatedInterestedKeys = annotation.interestedKeys();
-    String[] annotatedInterestedKeyPrefixes = annotation.interestedPrefixes();
+    String[] annotatedInterestedKeyPrefixes = annotation.interestedKeyPrefixes();
     ConfigChangeListener configChangeListener = new ConfigChangeListener() {
       @Override
       public void onChange(ConfigChangeEvent changeEvent) {
@@ -75,12 +73,7 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
       if (interestedKeys == null && interestedKeyPrefixes == null) {
         config.addChangeListener(configChangeListener);
       } else {
-        if (interestedKeys != null && !interestedKeys.isEmpty()) {
-          config.addChangeListener(configChangeListener, interestedKeys);
-        }
-        if (interestedKeyPrefixes != null && !interestedKeyPrefixes.isEmpty()) {
-          config.addChangeListener(configChangeListener, Collections.<String>emptySet(), interestedKeyPrefixes);
-        }
+        config.addChangeListener(configChangeListener, interestedKeys, interestedKeyPrefixes);
       }
     }
   }
