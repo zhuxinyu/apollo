@@ -1,16 +1,5 @@
 package com.ctrip.framework.apollo.spring;
 
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.ConfigChangeListener;
 import com.ctrip.framework.apollo.core.ConfigConsts;
@@ -20,9 +9,6 @@ import com.ctrip.framework.apollo.spring.annotation.ApolloConfigChangeListener;
 import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
@@ -31,6 +17,18 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anySetOf;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * @author Jason Song(song_s@ctrip.com)
@@ -223,10 +221,10 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
     final ArgumentCaptor<Set> fxApolloConfigInterestedKeys = ArgumentCaptor.forClass(Set.class);
 
     verify(applicationConfig, times(2))
-        .addChangeListener(any(ConfigChangeListener.class), applicationConfigInterestedKeys.capture());
+        .addChangeListener(any(ConfigChangeListener.class), applicationConfigInterestedKeys.capture(), anySetOf(String.class));
 
     verify(fxApolloConfig, times(1))
-        .addChangeListener(any(ConfigChangeListener.class), fxApolloConfigInterestedKeys.capture());
+        .addChangeListener(any(ConfigChangeListener.class), fxApolloConfigInterestedKeys.capture(), anySetOf(String.class));
 
     assertEquals(2, applicationConfigInterestedKeys.getAllValues().size());
 
@@ -239,41 +237,6 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
     assertEquals(1, fxApolloConfigInterestedKeys.getAllValues().size());
 
     assertEquals(asList(Sets.newHashSet("anotherKey")), fxApolloConfigInterestedKeys.getAllValues());
-  }
-
-  @Test
-  public void testApolloConfigChangeListenerWithInterestedKeyPrefix() {
-    Config applicationConfig = mock(Config.class);
-    Config fxApolloConfig = mock(Config.class);
-
-    mockConfig(ConfigConsts.NAMESPACE_APPLICATION, applicationConfig);
-    mockConfig(FX_APOLLO_NAMESPACE, fxApolloConfig);
-
-    getBean(TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean.class, AppConfig8.class);
-
-    final ArgumentCaptor<Set> applicationConfigInterestedKeyPrefixes = ArgumentCaptor.forClass(Set.class);
-    final ArgumentCaptor<Set> fxApolloConfigInterestedKeyPrefixes = ArgumentCaptor.forClass(Set.class);
-
-    verify(applicationConfig, times(2))
-        .addChangeListener(any(ConfigChangeListener.class), anySet(), applicationConfigInterestedKeyPrefixes.capture());
-
-    verify(fxApolloConfig, times(1))
-        .addChangeListener(any(ConfigChangeListener.class), anySet(), fxApolloConfigInterestedKeyPrefixes.capture());
-
-    assertEquals(2, applicationConfigInterestedKeyPrefixes.getAllValues().size());
-
-    Set<String> result = Sets.newHashSet();
-    for (Set interestedKeys : applicationConfigInterestedKeyPrefixes.getAllValues()) {
-      result.addAll(interestedKeys);
-    }
-
-    assertThat(result, hasItem("some"));
-
-    assertThat(result, containsInAnyOrder("another", "some"));
-
-    assertEquals(1, fxApolloConfigInterestedKeyPrefixes.getAllValues().size());
-
-    assertEquals(asList(Sets.newHashSet("another")), fxApolloConfigInterestedKeyPrefixes.getAllValues());
   }
 
   private <T> T getBean(Class<T> beanClass, Class<?>... annotatedClasses) {
@@ -351,10 +314,6 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
     @Bean
     public TestApolloConfigChangeListenerWithInterestedKeysBean bean() {
       return new TestApolloConfigChangeListenerWithInterestedKeysBean();
-    }
-    @Bean
-    public TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean patternsBean() {
-      return new TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean();
     }
   }
 
@@ -462,18 +421,6 @@ public class JavaConfigAnnotationTest extends AbstractSpringIntegrationTest {
 
     @ApolloConfigChangeListener(value = {ConfigConsts.NAMESPACE_APPLICATION, FX_APOLLO_NAMESPACE},
         interestedKeys = {"anotherKey"})
-    private void anotherOnChange(ConfigChangeEvent changeEvent) {
-
-    }
-  }
-
-  static class TestApolloConfigChangeListenerWithInterestedKeyPrefixesBean {
-
-    @ApolloConfigChangeListener(interestedKeyPrefixes = {"some"})
-    private void someOnChange(ConfigChangeEvent changeEvent) {}
-
-    @ApolloConfigChangeListener(value = {ConfigConsts.NAMESPACE_APPLICATION, FX_APOLLO_NAMESPACE},
-        interestedKeyPrefixes = {"another"})
     private void anotherOnChange(ConfigChangeEvent changeEvent) {
 
     }
