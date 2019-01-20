@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -64,14 +66,8 @@ public class ApolloAnnotationProcessor extends ApolloProcessor {
       }
     };
 
-    Set<String> interestedKeys = null;
-    Set<String> interestedKeyPrefixes = null;
-    if (annotatedInterestedKeys.length > 0) {
-      interestedKeys = new HashSet<>(Arrays.asList(annotatedInterestedKeys));
-    }
-    if (annotatedInterestedKeyPrefixes.length > 0) {
-      interestedKeyPrefixes = new HashSet<>(Arrays.asList(annotatedInterestedKeyPrefixes));
-    }
+    Set<String> interestedKeys = annotatedInterestedKeys.length > 0 ? Sets.newHashSet(annotatedInterestedKeys) : null;
+    Set<String> interestedKeyPrefixes = annotatedInterestedKeyPrefixes.length > 0 ? Sets.newHashSet(annotatedInterestedKeyPrefixes) : null;
 
     for (String namespace : namespaces) {
       Config config = ConfigService.getConfig(namespace);
