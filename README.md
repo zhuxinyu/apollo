@@ -107,6 +107,7 @@ Java客户端不依赖任何框架，能够运行于所有Java运行时环境，
 
 # Publication
   * [开源配置中心Apollo的设计与实现](http://www.infoq.com/cn/articles/open-source-configuration-center-apollo)
+  * [配置中心，让微服务更『智能』](https://mp.weixin.qq.com/s/iDmYJre_ULEIxuliu1EbIQ)
 
 # Support
 <table>
@@ -255,7 +256,17 @@ The project is licensed under the [Apache 2 license](https://github.com/ctripcor
 ![浙江执御](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/jollychic.png) 
 ![二维火](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/2dfire.jpg) 
 ![上品](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/shopin.png) 
+![浪潮集团](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/inspur.png) 
+![纳里健康](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/ngarihealth.png) 
+![橙红科技](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/oraro.png) 
+![龙腾出行](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/dragonpass.png) 
+![荔枝](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/lizhi.fm.png) 
+![汇通达](https://raw.githubusercontent.com/ctripcorp/apollo/master/doc/images/known-users/htd.png) 
 
 # Awards
 
 <img src="https://raw.githubusercontent.com/ctripcorp/apollo-community/master/images/awards/oschina-2018-award.jpg" width="240px" alt="2018 年度最受欢迎中国开源软件">
+
+# Stargazers over time
+
+[![Stargazers over time](https://starcharts.herokuapp.com/ctripcorp/apollo.svg)](https://starcharts.herokuapp.com/ctripcorp/apollo)
